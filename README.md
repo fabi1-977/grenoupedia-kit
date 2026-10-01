@@ -1,13 +1,11 @@
 # Kit Grenoupedia · Grenoucerie
 
-Todo lo necesario para producir recetas de la Grenoupedia (grenoucerie.com) con Claude.
+Todo lo necesario para producir fichas de la Grenoupedia (grenoucerie.com) con Claude.
 
-| Carpeta | Contenido |
+| Carpeta / archivo | Contenido |
 |---|---|
-| `skill/recetas-grenoucerie/` | Skill única v5.0: reglas de verdad, ficha FR de 14 bloques, paquete audiovisual, checklist |
-| `plantilla-base/` | Plantilla maestra "Ficha Receta Grenoupedia" (sistema de diseño Porcelaine, slots `{{…}}`, UI kit) con receta de ejemplo en persillade |
-| `ejemplo-receta-100/` | La plantilla rellena con la receta 100 (Grenouchup laqué hoisin y cinco especias) + entregables ES/FR, JSON-LD y meta |
-| `INSTALAR_PROMPT.md` | Prompt para instalar todo en otro PC |
-| `install.sh` | Instalador Mac/Linux |
-
-Estado de la receta 100: borrador. Cantidades y tiempos propuestos, pendiente de prueba en cocina y de verificar temperatura a corazón.
+| `skill/recetas-grenoucerie/` | Skill única v5.1: reglas de verdad, ficha FR de 14 bloques, regla anti-pollo y anti-monstruo por corte con lista de rechazo, paquete audiovisual, checklist |
+| `plantilla-base/` | Plantilla maestra «Ficha Receta Grenoupedia» (sistema Porcelaine, slots `{{…}}`, UI kit con ficha, IG, Reel y LinkedIn). Es también la skill de diseño `grenoucerie-recettes-design` |
+| `instrucciones/` | Instrucciones del proyecto (prompt + negativo anti-pollo) y reglas fijas |
+| `skills-zip/` | Las dos skills comprimidas para subir a claude.ai |
+| `INSTALAR_PROMPT.md` · `install.sh` | Instalación en otro PC |
