@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grenoupedia · Gabarit de recette</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&amp;family=Instrument+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#F6F5F1;color:#262B27;-webkit-font-smoothing:antialiased}
+a{color:#7A5C27;text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{color:#1E3A2C}
+::selection{background:#EBDDD2;color:#142A1F}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid #7A5C27;outline-offset:2px}
+</style>
+</helmet>
+
+<div ref="{{ rootRef }}" style="background:#F6F5F1;min-height:100vh;font-family:'Instrument Sans',system-ui,sans-serif;color:#262B27">
+
+  <sc-if value="{{ slots }}" hint-placeholder-val="{{ false }}">
+    <div style="background:#142A1F;color:#F6F5F1;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.04em;padding:10px clamp(20px,4vw,48px)">Mode gabarit · chaque champ entre accolades est un slot injecté par la skill recetas-grenoucerie</div>
+  </sc-if>
+
+  <div style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px)">
+
+    <header style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:22px 0;border-bottom:1px solid rgba(30,58,44,0.14)">
+      <a href="/" style="font-family:'EB Garamond',Georgia,serif;font-size:26px;font-weight:500;color:#1E3A2C;text-decoration:none;letter-spacing:-0.01em">Grenoucerie</a>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#4E5650">Grenoupedia</span>
+    </header>
+
+    <!-- A. art-head -->
+    <section class="art-head" style="padding:40px 0 0">
+      <nav aria-label="Fil d'Ariane">
+        <ol style="display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0;font-family:'JetBrains Mono',monospace;font-size:12px;color:#4E5650">
+          <li><a href="/" style="color:#4E5650;text-decoration:none">Accueil</a></li>
+          <li aria-hidden="true">›</li>
+          <li><a href="/grenoupedia/" style="color:#4E5650;text-decoration:none">Grenoupedia</a></li>
+          <li aria-hidden="true">›</li>
+          <li><a href="/grenoupedia/recettes/" style="color:#4E5650;text-decoration:none">Recettes</a></li>
+          <li aria-hidden="true">›</li>
+          <li aria-current="page" style="color:#1E3A2C">{{ r.CATEGORIE_PLAT }}</li>
+        </ol>
+      </nav>
+
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:36px">
+        <span style="display:inline-flex;align-items:center;gap:8px;background:#1E3A2C;color:#F6F5F1;border-radius:4px;padding:6px 12px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase">
+          <span style="width:6px;height:6px;border-radius:50%;background:#EBDDD2"></span>Découpe officielle · {{ r.CORTE_GRENOUCERIE }}
+        </span>
+        <div role="radiogroup" aria-label="Choisir la découpe" style="display:flex;flex-wrap:wrap;gap:6px">
+          <sc-for list="{{ cuts }}" as="c" hint-placeholder-count="4">
+            <button type="button" role="radio" aria-checked="{{ c.on }}" onClick="{{ c.pick }}" style="cursor:pointer;white-space:nowrap;font-family:'Instrument Sans',sans-serif;font-size:13px;padding:6px 12px;border-radius:4px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.fg }}" style-hover="border-color:#1E3A2C">{{ c.name }}</button>
+          </sc-for>
+        </div>
+      </div>
+
+      <h1 style="font-family:'EB Garamond',Georgia,serif;font-weight:500;font-size:clamp(40px,5.4vw,68px);line-height:1.02;letter-spacing:-0.02em;color:#1E3A2C;margin:24px 0 0;max-width:15ch;text-wrap:balance">{{ r.TITRE_RECETTE }} <em style="font-style:italic;color:#7A5C27">{{ r.TITRE_PROMESSE }}</em></h1>
+      <p style="font-size:20px;line-height:1.6;color:#4E5650;max-width:56ch;margin:24px 0 0;text-wrap:pretty">{{ r.CHAPO }}</p>
+
+      <dl class="art-byline" style="display:flex;flex-wrap:wrap;gap:0;margin:36px 0 0;border-top:1px solid rgba(30,58,44,0.14);border-bottom:1px solid rgba(30,58,44,0.14)">
+        <div style="flex:1 1 160px;padding:18px 24px 18px 0">
+          <dt style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4E5650">Préparation</dt>
+          <dd style="margin:6px 0 0;font-family:'JetBrains Mono',monospace;font-size:20px;color:#1E3A2C;font-variant-numeric:tabular-nums">{{ r.TEMPS_PREP }}</dd>
+        </div>
+        <div style="flex:1 1 200px;padding:18px 24px 18px 0">
+          <dt style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4E5650">Cuisson</dt>
+          <dd style="margin:6px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:20px;color:#1E3A2C;font-variant-numeric:tabular-nums">{{ r.TEMPS_CUISSON }}</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#7A5C27;border:1px solid #7A5C27;border-radius:4px;padding:3px 7px">⚠ {{ r.ALERTE_CUISSON }}</span>
+          </dd>
+        </div>
+        <div style="flex:1 1 140px;padding:18px 24px 18px 0">
+          <dt style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4E5650">Difficulté</dt>
+          <dd style="margin:6px 0 0;font-family:'JetBrains Mono',monospace;font-size:20px;color:#1E3A2C">{{ r.DIFFICULTE }}</dd>
+        </div>
+        <div style="flex:1 1 140px;padding:18px 0">
+          <dt style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4E5650">Portions</dt>
+          <dd style="margin:6px 0 0;font-family:'JetBrains Mono',monospace;font-size:20px;color:#1E3A2C">{{ r.PORTIONS }}</dd>
+        </div>
+      </dl>
+
+      <figure class="art-hero" style="margin:40px 0 0">
+        <div style="aspect-ratio:16/9;background:#FFFFFF;border:1px solid rgba(30,58,44,0.14);border-radius:4px;padding:10px;box-sizing:border-box">
+          <div style="position:relative;width:100%;height:100%;background:#EBDDD2;border-radius:2px;overflow:hidden">
+            <image-slot id="grenoupedia-hero" shape="rect" placeholder="Photo d'emplacement — plat dressé, 16:9, lumière naturelle latérale"></image-slot>
+          </div>
+        </div>
+        <figcaption style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;margin-top:12px">
+          <span style="font-family:'EB Garamond',Georgia,serif;font-style:italic;font-size:17px;color:#262B27">{{ r.LEGENDE_PHOTO }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;color:#4E5650">{{ r.CREDIT_PHOTO }}</span>
+        </figcaption>
+      </figure>
+    </section>
+
+    <div style="display:grid;grid-template-columns:{{ layout.cols }};gap:{{ layout.gap }};align-items:start;margin-top:72px">
+
+      <!-- B. sidebar -->
+      <aside ref="{{ asideRef }}" style="position:{{ layout.pos }};top:{{ layout.top }};display:flex;flex-direction:column;gap:28px">
+        <sc-if value="{{ layout.narrow }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ toggleSide }}" aria-expanded="{{ sideOpen }}" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;width:100%;background:#FFFFFF;border:1px solid rgba(30,58,44,0.14);border-radius:4px;padding:14px 16px;font-family:'EB Garamond',Georgia,serif;font-size:20px;color:#1E3A2C">
+            <span>Sommaire &amp; fiche technique</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#7A5C27">{{ sideChevron }}</span>
+          </button>
+        </sc-if>
+
+        <sc-if value="{{ sideOpen }}" hint-placeholder-val="{{ true }}">
+          <nav class="toc" aria-label="Sommaire">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4E5650;margin-bottom:10px">Sommaire</div>
+            <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
+              <sc-for list="{{ toc }}" as="t" hint-placeholder-count="6">
+                <li>
+                  <button type="button" onClick="{{ t.go }}" style="cursor:pointer;display:flex;gap:10px;width:100%;text-align:left;background:none;border:0;border-left:2px solid {{ t.rule }};padding:7px 0 7px 12px;font-family:'Instrument Sans',sans-serif;font-size:14px;line-height:1.35;color:{{ t.color }};font-weight:{{ t.weight }}" style-hover="color:#1E3A2C">
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#7A5C27;padding-top:2px">{{ t.n }}</span>{{ t.label }}
+                  </button>
+                </li>
+              </sc-for>
+            </ol>
+          </nav>
+
+          <div class="art-fiche" style="background:#FFFFFF;border:1px solid rgba(30,58,44,0.14);border-radius:4px;padding:20px">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4E5650">Fiche technique</div>
+            <div style="font-family:'EB Garamond',Georgia,serif;font-size:26px;font-weight:500;color:#1E3A2C;margin-top:10px;line-height:1.1">{{ r.CORTE_GRENOUCERIE }}</div>
+            <p style="font-size:14px;line-height:1.5;color:#4E5650;margin:6px 0 0">{{ r.CORTE_DESC }}</p>
+            <dl style="margin:16px 0 0;display:flex;flex-direction:column;gap:10px;font-size:13px">
+              <div>
+                <dt style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#4E5650">Calibre recommandé</dt>
+                <dd style="margin:3px 0 0;font-family:'JetBrains Mono',monospace;color:#262B27">{{ r.CALIBRE }}</dd>
+              </div>
+              <div>
+                <dt style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#4E5650">Usage</dt>
+                <dd style="margin:3px 0 0;color:#262B27">{{ r.CORTE_USAGE }}</dd>
+              </div>
+              <div>
+                <dt style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#4E5650">Origine</dt>
+                <dd style="margin:3px 0 0;color:#262B27">{{ r.ORIGINE }}</dd>
+              </div>
+            </dl>
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid rgba(30,58,44,0.14)">
+              <div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#4E5650">Matière grasse</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:24px;color:#1E3A2C;margin-top:4px">{{ r.MATIERE_GRASSE }}</div>
+              </div>
+              <div aria-label="Nutri-Score" style="display:flex;align-items:center;gap:2px">
+                <sc-for list="{{ nutri }}" as="ns" hint-placeholder-count="5">
+                  <span style="display:grid;place-items:center;width:{{ ns.size }};height:{{ ns.size }};border-radius:4px;background:{{ ns.bg }};opacity:{{ ns.op }};color:#FFFFFF;font-family:'Instrument Sans',sans-serif;font-weight:600;font-size:12px">{{ ns.l }}</span>
+                </sc-for>
+              </div>
+            </div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#7A5C27;margin-top:10px">{{ r.SOURCE_NUTRITION }}</div>
+          </div>
+
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4E5650">Mets &amp; vins</div>
+            <div style="margin-top:12px">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#7A5C27">Terroir</div>
+              <div style="font-family:'EB Garamond',Georgia,serif;font-size:20px;color:#1E3A2C;margin-top:2px;line-height:1.2">{{ r.VIN_TERROIR }}</div>
+              <p style="font-size:13px;line-height:1.5;color:#4E5650;margin:4px 0 0">{{ r.VIN_NOTE }}</p>
+            </div>
+            <div style="margin-top:16px">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#7A5C27">Sans alcool</div>
+              <div style="font-family:'EB Garamond',Georgia,serif;font-size:20px;color:#1E3A2C;margin-top:2px;line-height:1.2">{{ r.SANS_ALCOOL }}</div>
+              <p style="font-size:13px;line-height:1.5;color:#4E5650;margin:4px 0 0">{{ r.SANS_ALCOOL_NOTE }}</p>
+            </div>
+          </div>
+
+          <div style="background:#142A1F;color:#F6F5F1;border-radius:4px;padding:20px">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#EBDDD2">Chefs &amp; restauration</div>
+            <p style="font-size:14px;line-height:1.5;margin:8px 0 14px;color:#F6F5F1">Calibres, fiches techniques et conditionnements pour la brigade.</p>
+            <a href="/les-decoupes/" style="display:inline-block;font-size:13px;color:#F6F5F1;text-decoration:none;border-bottom:1px solid #EBDDD2;padding-bottom:2px" style-hover="color:#EBDDD2">Dossier technique &amp; découpes 2026 →</a>
+          </div>
+        </sc-if>
+      </aside>
+
+      <!-- C. prose -->
+      <article class="prose" style="min-width:0;font-size:18px;line-height:1.72">
+
+        <section id="sec-erreur" style="background:#142A1F;color:#F6F5F1;border-radius:4px;padding:clamp(24px,4vw,44px)">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#EBDDD2">01 — L'erreur fatale du cuisinier</div>
+          <h2 style="font-family:'EB Garamond',Georgia,serif;font-weight:500;font-size:clamp(30px,3.4vw,42px);line-height:1.08;letter-spacing:-0.01em;margin:12px 0 18px;color:#F6F5F1;text-wrap:balance">{{ r.ERREUR_TITRE }} <em style="font-style:italic;color:#EBDDD2">{{ r.ERREUR_EM }}</em></h2>
+          <p style="margin:0;max-width:60ch;color:#F6F5F1;text-wrap:pretty">{{ r.ERREUR_TEXTE }}</p>
+          <p style="margin:22px 0 0;font-family:'JetBrains Mono',monospace;font-size:14px;color:#142A1F;background:#EBDDD2;display:inline-block;padding:8px 12px;border-radius:4px">{{ r.ERREUR_REGLE }}</p>
+        </section>
+
+        <section id="sec-ingredients" style="margin-top:80px;max-width:68ch">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#7A5C27">02 — La fiche ingrédients</div>
+          <h2 style="font-family:'EB Garamond',Georgia,serif;font-weight:500;font-size:clamp(30px,3.4vw,42px);line-height:1.08;letter-spacing:-0.01em;color:#1E3A2C;margin:12px 0 28px">Ingrédients <em style="font-style:italic;color:#7A5C27">pour {{ r.PORTIONS }}</em></h2>
+          <div style="display:flex;flex-direction:column;gap:32px">
+            <sc-for list="{{ ingredients }}" as="g" hint-placeholder-count="3">
+              <div>
+                <h3 style="font-family:'EB Garamond',Georgia,serif;font-weight:500;font-size:22px;color:#1E3A2C;margin:0 0 6px">{{ g.group }}</h3>
+                <ul style="list-style:none;margin:0;padding:0">
+                  <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="3">
+                    <li style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:baseline;padding:11px 0;border-bottom:1px solid rgba(30,58,44,0.14)">
+                      <span style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px;font-size:17px;color:#262B27">{{ it.name }}
+                        <sc-if value="{{ it.allergen }}" hint-placeholder-val="{{ false }}">
+                          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#7A5C27;border:1px solid rgba(122,92,39,0.4);border-radius:4px;padding:1px 6px">{{ it.allergen }}</span>
+                        </sc-if>
+                      </span>
+                      <span style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#1E3A2C;font-variant-numeric:tabular-nums;text-align:right">{{ it.qty }}</span>
+                    </li>
+                  </sc-for>
+                </ul>
+              </div>
+            </sc-for>
+          </div>
+          <sc-if value="{{ slots }}" hint-placeholder-val="{{ false }}">
+            <p style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#7A5C27;margin:14px 0 0">{{ repeatNoteIng }}</p>
+          </sc-if>
+        </section>
+
+        <section id="sec-cuisson" style="margin-top:80px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#7A5C27">03 — L'infographie de cuisson</div>
+          <h2 style="font-family:'EB Garamond',Georgia,serif;font-weight:500;font-size:clamp(30px,3.4vw,42px);line-height:1.08;letter-spacing:-0.01em;color:#1E3A2C;margin:12px 0 28px">{{ r.CUISSON_TITRE }} <em style="font-style:italic;color:#7A5C27">{{ r.CUISSON_EM }}</em></h2>
+
+          <div style="background:#FFFFFF;border:1px solid rgba(30,58,44,0.14);border-radius:4px;padding:clamp(20px,3vw,32px)">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px">
+              <div style="display:flex;align-items:baseline;gap:14px">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:40px;line-height:1;color:#1E3A2C;font-variant-numeric:tabular-nums">{{ clock }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4E5650">{{ clockHint }}</span>
+              </div>
+              <div style="display:flex;gap:8px">
+                <button type="button" onClick="{{ toggleTimer }}" style="cursor:pointer;white-space:nowrap;background:#1E3A2C;color:#F6F5F1;border:1px solid #1E3A2C;border-radius:4px;padding:9px 16px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:500" style-hover="background:#142A1F">{{ timerLabel }}</button>
+                <button type="button" onClick="{{ resetTimer }}" style="cursor:pointer;white-space:nowrap;background:transparent;color:#1E3A2C;border:1px solid rgba(30,58,44,0.3);border-radius:4px;padding:9px 14px;font-family:'Instrument Sans',sans-serif;font-size:14px" style-hover="border-color:#1E3A2C">Réinitialiser</button>
+              </div>
+            </div>
+
+            <div style="position:relative;margin-top:28px">
+              <div role="tablist" aria-label="Phases de cuisson" style="display:flex;gap:3px;height:52px">
+                <sc-for list="{{ phases }}" as="p" hint-placeholder-count="3">
+                  <button type="button" role="tab" aria-selected="{{ p.on }}" onClick="{{ p.pick }}" style="cursor:pointer;width:{{ p.w }};flex:none;border:0;border-radius:3px;background:{{ p.bg }};color:{{ p.fg }};opacity:{{ p.op }};font-family:'JetBrains Mono',monospace;font-size:13px;padding:0;transition:opacity .2s" style-hover="opacity:1">{{ p.k }}</button>
+                </sc-for>
+              </div>
+              <div style="position:absolute;top:-8px;bottom:-8px;left:{{ playLeft }};width:2px;background:#142A1F;border-radius:1px;pointer-events:none;transition:left .1s linear"></div>
+            </div>
+            <div style="position:relative;height:36px;margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#4E5650">
+              <sc-for list="{{ ticks }}" as="tk" hint-placeholder-count="4">
+                <span style="position:absolute;top:{{ tk.top }};left:{{ tk.left }};transform:{{ tk.tx }};white-space:nowrap">{{ tk.label }}</span>
+              </sc-for>
+            </div>
+
+            <div style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;margin-top:22px;padding-top:22px;border-top:1px solid rgba(30,58,44,0.14)">
+              <span style="font-family:'EB Garamond',Georgia,serif;font-size:48px;line-height:0.9;color:#7A5C27">{{ cur.k }}</span>
+              <div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#7A5C27">{{ cur.range }}</div>
+                <h3 style="font-family:'EB Garamond',Georgia,serif;font-weight:500;font-size:24px;color:#1E3A2C;margin:4px 0 6px;line-height:1.15">{{ cur.title }}</h3>
+                <p style="margin:0;font-size:16px;line-height:1.6;color:#262B27">{{ cur.text }}</p>
+                <p style="margin:8px 0 0;font-size:14px;line-height:1.5;color:#4E5650"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#1E3A2C">Contrôle</span> — {{ cur.signal }}</p>
+              </div>
+            </div>
+          </div>
+          <p style="font-size:13px;line-height:1.55;color:#4E5650;margin:12px 0 0;max-width:68ch">{{ r.CUISSON_NOTE }}</p>
+        </section>
+
+        <section id="sec-etapes" style="margin-top:80px;max-width:68ch">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#7A5C27">04 — La recette pas à pas</div>
+          <h2 style="font-family:'EB Garamond',Georgia,serif;font-weight:500;font-size:clamp(30px,3.4vw,42px);line-height:1.08;letter-spacing:-0.01em;color:#1E3A2C;margin:12px 0 28px">La recette <em style="font-style:italic;color:#7A5C27">pas à pas</em></h2>
+          <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:30px">
+            <sc-for list="{{ steps }}" as="st" hint-placeholder-count="6">
+              <li style="display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px">
+                <span style="font-family:'EB Garamond',Georgia,serif;font-size:40px;line-height:1;color:#7A5C27">{{ st.n }}</span>
+                <div>
+                  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px">
+                    <h3 style="font-family:'EB Garamond',Georgia,serif;font-weight:500;font-size:23px;line-height:1.2;color:#1E3A2C;margin:0">{{ st.title }}</h3>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#142A1F;background:#EBDDD2;border-radius:4px;padding:3px 8px">{{ st.badge }}</span>
+                  </div>
+                  <p style="margin:8px 0 0;color:#262B27;text-wrap:pretty">{{ st.text }}</p>
+                  <p style="margin:6px 0 0;font-size:14px;line-height:1.5;color:#4E5650"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#1E3A2C">Contrôle</span> — {{ st.signal }}</p>
+                </div>
+              </li>
+            </sc-for>
+          </ol>
+          <sc-if value="{{ slots }}" hint-placeholder-val="{{ false }}">
+            <p style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#7A5C27;margin:14px 0 0">{{ repeatNoteSteps }}</p>
+          </sc-if>
+        </section>
+
+        <blockquote style="margin:80px 0 0;padding:4px 0 4px 28px;border-left:3px solid #7A5C27;max-width:60ch">
+          <p style="margin:0;font-family:'EB Garamond',Georgia,serif;font-style:italic;font-size:clamp(28px,3vw,36px);line-height:1.25;color:#1E3A2C">« {{ r.CITATION }} »</p>
+          <cite style="display:block;margin-top:14px;font-style:normal;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#7A5C27">{{ r.CITATION_AUTEUR }}</cite>
+        </blockquote>
+
+        <section id="sec-conservation" style="margin-top:80px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#7A5C27">05 — Si vous n'avez pas tout mangé</div>
+          <h2 style="font-family:'EB Garamond',Georgia,serif;font-weight:500;font-size:clamp(30px,3.4vw,42px);line-height:1.08;letter-spacing:-0.01em;color:#1E3A2C;margin:12px 0 28px">Conservation <em style="font-style:italic;color:#7A5C27">&amp; régénération</em></h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+            <div style="background:#FFFFFF;border:1px solid rgba(30,58,44,0.14);border-radius:4px;padding:24px">
+              <h3 style="font-family:'EB Garamond',Georgia,serif;font-weight:500;font-size:22px;color:#1E3A2C;margin:0 0 8px">Conserver</h3>
+              <p style="margin:0;font-size:16px;line-height:1.65;color:#262B27">{{ r.CONSERVATION }}</p>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid rgba(30,58,44,0.14);border-radius:4px;padding:24px">
+              <h3 style="font-family:'EB Garamond',Georgia,serif;font-weight:500;font-size:22px;color:#1E3A2C;margin:0 0 8px">Régénérer</h3>
+              <p style="margin:0;font-size:16px;line-height:1.65;color:#262B27">{{ r.REGENERATION }}</p>
+              <p style="margin:12px 0 0;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.5;color:#7A5C27">{{ r.REGENERATION_NOTE }}</p>
+            </div>
+          </div>
+        </section>
+      </article>
+    </div>
+
+    <!-- D. social -->
+    <section id="sec-reseaux" style="margin-top:112px;padding-top:56px;border-top:1px solid rgba(30,58,44,0.14)">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#7A5C27">06 — Déclinaisons sociales</div>
+      <h2 style="font-family:'EB Garamond',Georgia,serif;font-weight:500;font-size:clamp(30px,3.4vw,42px);line-height:1.08;letter-spacing:-0.01em;color:#1E3A2C;margin:12px 0 28px">Une recette, <em style="font-style:italic;color:#7A5C27">trois formats.</em></h2>
+
+      <div role="tablist" aria-label="Formats sociaux" style="display:flex;flex-wrap:wrap;gap:4px 28px;border-bottom:1px solid rgba(30,58,44,0.14)">
+        <sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="3">
+          <button type="button" role="tab" aria-selected="{{ tb.on }}" onClick="{{ tb.pick }}" style="cursor:pointer;display:flex;align-items:baseline;gap:10px;background:none;border:0;border-bottom:2px solid {{ tb.rule }};margin-bottom:-1px;padding:12px 0;font-family:'Instrument Sans',sans-serif;font-size:16px;font-weight:{{ tb.weight }};color:{{ tb.color }}" style-hover="color:#1E3A2C">{{ tb.label }}<span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#7A5C27">{{ tb.fmt }}</span></button>
+        </sc-for>
+      </div>
+
+      <div style="padding:32px 0 0">
+        <sc-if value="{{ tabIG }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;gap:16px;overflow-x:auto;overflow-y:hidden;padding-bottom:8px">
+            <sc-for list="{{ ig }}" as="sl" hint-placeholder-count="5">
+              <div style="flex:0 0 224px;aspect-ratio:4/5;overflow:hidden;background:#FFFFFF;border:1px solid rgba(30,58,44,0.14);border-radius:4px;padding:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;color:#4E5650"><span>{{ sl.n }} / 05</span><span>{{ sl.kind }}</span></div>
+                <div style="flex:1 1 0;min-height:0;background:#EBDDD2;border-radius:2px;display:flex;align-items:flex-end;padding:8px;font-family:'JetBrains Mono',monospace;font-size:10px;line-height:1.4;color:#4E5650">{{ sl.visual }}</div>
+                <div style="flex:none;font-family:'EB Garamond',Georgia,serif;font-size:17px;line-height:1.15;color:#1E3A2C">{{ sl.title }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ tabReel }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start">
+            <div style="flex:0 0 190px;aspect-ratio:9/16;background:#142A1F;border-radius:4px;padding:14px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between">
+              <div style="display:flex;gap:3px">
+                <sc-for list="{{ reel }}" as="rb" hint-placeholder-count="3">
+                  <span style="height:3px;border-radius:2px;background:#EBDDD2;opacity:.7;width:{{ rb.w }}"></span>
+                </sc-for>
+              </div>
+              <div style="font-family:'EB Garamond',Georgia,serif;font-style:italic;font-size:22px;line-height:1.15;color:#F6F5F1">{{ r.REEL_TEXTE_ECRAN }}</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#EBDDD2">9:16 · 30 s</div>
+            </div>
+            <ol style="flex:1 1 380px;list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
+              <sc-for list="{{ reel }}" as="rs" hint-placeholder-count="3">
+                <li style="display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;padding:18px 0;border-bottom:1px solid rgba(30,58,44,0.14)">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#1E3A2C;font-variant-numeric:tabular-nums">{{ rs.range }}</span>
+                  <div>
+                    <div style="font-family:'EB Garamond',Georgia,serif;font-size:22px;color:#1E3A2C;line-height:1.1">{{ rs.label }}</div>
+                    <p style="margin:6px 0 0;font-size:15px;line-height:1.6;color:#262B27"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#7A5C27">Plan</span> — {{ rs.plan }}</p>
+                    <p style="margin:4px 0 0;font-size:15px;line-height:1.6;color:#262B27"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#7A5C27">Texte</span> — {{ rs.texte }}</p>
+                  </div>
+                </li>
+              </sc-for>
+            </ol>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ tabLI }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start">
+            <div style="flex:0 0 300px;aspect-ratio:1/1;background:#FFFFFF;border:1px solid rgba(30,58,44,0.14);border-radius:4px;padding:22px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#7A5C27">Grenoucerie · Pour les chefs</div>
+              <div style="font-family:'EB Garamond',Georgia,serif;font-size:27px;line-height:1.12;color:#1E3A2C">{{ r.LINKEDIN_TITRE }}</div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:#4E5650"><span>1:1</span><span>{{ r.CORTE_GRENOUCERIE }}</span></div>
+            </div>
+            <div style="flex:1 1 380px">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#4E5650">Argumentaire brigade</div>
+              <ul style="list-style:none;margin:10px 0 0;padding:0">
+                <sc-for list="{{ li }}" as="ar" hint-placeholder-count="3">
+                  <li style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;padding:14px 0;border-bottom:1px solid rgba(30,58,44,0.14);font-size:16px;line-height:1.6;color:#262B27">
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#7A5C27;padding-top:3px">{{ ar.n }}</span>{{ ar.text }}
+                  </li>
+                </sc-for>
+              </ul>
+              <a href="/les-decoupes/" style="display:inline-block;margin-top:18px;font-size:15px">Dossier technique &amp; découpes 2026 →</a>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </section>
+
+    <!-- E. schema -->
+    <details style="margin:80px 0 0;padding:20px 0 64px;border-top:1px solid rgba(30,58,44,0.14)">
+      <summary style="cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.04em;color:#4E5650">Données structurées · Schema.org/Recipe (JSON-LD injecté dans le head)</summary>
+      <pre style="margin:16px 0 0;background:#FFFFFF;border:1px solid rgba(30,58,44,0.14);border-radius:4px;padding:18px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.55;color:#262B27;max-height:420px;overflow:auto;white-space:pre-wrap">{{ ldText }}</pre>
+    </details>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;exemple&quot;,&quot;gabarit&quot;],&quot;default&quot;:&quot;exemple&quot;,&quot;tsType&quot;:&quot;'exemple' | 'gabarit'&quot;,&quot;section&quot;:&quot;Gabarit&quot;},&quot;decoupe&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;premium&quot;,&quot;perle&quot;,&quot;grenouchup&quot;,&quot;lollifrog&quot;],&quot;default&quot;:&quot;premium&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Gabarit&quot;}}">
+const TOTAL = 150;
+const CUTS = [
+  { id: 'premium', name: 'Premium', desc: 'Deux cuisses unies par la selle lombaire.', usage: 'Plats avec os : persillade, sautés, meunière', calibre: '8–10 paires/kg · 100–125 g la paire' },
+  { id: 'perle', name: 'La Perle', desc: 'Cœur musculaire désossé, taillé en médaillon.', usage: 'Médaillons poêlés, cuisson minute', calibre: 'Selon fiche du lot' },
+  { id: 'grenouchup', name: 'Le Grenouchup', desc: 'Sucette à os dégagé, à prendre en main.', usage: 'Apéritif, service à la main', calibre: 'Selon fiche du lot' },
+  { id: 'lollifrog', name: 'Le Lollifrog', desc: 'Bouchées calibrées pour la friture.', usage: 'Friture légère, tempura', calibre: 'Selon fiche du lot' }
+];
+const PHASES = [
+  { from: 0, to: 75, title: 'Saisir sans toucher', text: 'Cuisses posées à plat dans le beurre clarifié moussant. On ne les déplace pas.', signal: 'bord doré, chair nacrée devenue opaque sur le premier tiers.', bg: '#1E3A2C', fg: '#F6F5F1' },
+  { from: 75, to: 135, title: "Retourner, ajouter l'ail confit", text: "Retourner une à une à la pince. Ajouter l'ail confit écrasé et arroser au beurre à la cuillère.", signal: "l'ail blondit sans colorer, le beurre reste noisette claire.", bg: '#7A5C27', fg: '#FFFFFF' },
+  { from: 135, to: 150, title: 'Émulsionner hors du feu', text: 'Poêle retirée du feu : beurre froid, persil plat, quelques gouttes de citron. Napper.', signal: 'sauce liée et brillante, persil vert vif.', bg: '#C9B79C', fg: '#142A1F' }
+];
+const INGREDIENTS = [
+  { group: 'Les cuisses', items: [
+    { name: 'Cuisses de grenouille, découpe Premium', qty: '800 g' },
+    { name: 'Farine de blé T45, en voile léger (facultatif)', qty: '20 g', allergen: 'Gluten' },
+    { name: 'Fleur de sel', qty: '4 g' },
+    { name: 'Poivre blanc du moulin', qty: '1 g' } ] },
+  { group: 'La cuisson', items: [
+    { name: 'Beurre clarifié', qty: '60 g', allergen: 'Lait' },
+    { name: 'Ail, 4 gousses', qty: '20 g' } ] },
+  { group: 'La persillade', items: [
+    { name: 'Beurre doux froid, en dés', qty: '40 g', allergen: 'Lait' },
+    { name: 'Persil plat, ciselé', qty: '15 g' },
+    { name: 'Jus de citron', qty: '10 ml' } ] }
+];
+const STEPS = [
+  { title: 'Confire l\u2019ail', badge: 'Feu très doux', text: 'Cuire les gousses épluchées dans 20 g de beurre clarifié pendant 10 à 12 minutes, jusqu\u2019à ce qu\u2019elles s\u2019écrasent sous la fourchette.', signal: 'l\u2019ail reste blond, jamais coloré.' },
+  { title: 'Sécher les cuisses', badge: 'Température ambiante', text: 'Sortir les cuisses 15 minutes avant la cuisson, les éponger au papier absorbant, fariner d\u2019un voile et tapoter l\u2019excédent.', signal: 'surface parfaitement sèche au toucher.' },
+  { title: 'Saisir', badge: 'Feu moyen-vif · beurre moussant', text: 'Chauffer 40 g de beurre clarifié dans une poêle de 28 cm. Déposer les cuisses sans les chevaucher et ne plus y toucher pendant 75 secondes.', signal: 'bord doré, chair opaque sur le premier tiers.' },
+  { title: 'Retourner et arroser', badge: 'Feu moyen', text: 'Retourner, ajouter l\u2019ail confit écrasé et arroser au beurre pendant 60 secondes.', signal: 'la chair se détache de l\u2019os à la pointe du couteau.' },
+  { title: 'Émulsionner', badge: 'Hors du feu', text: 'Retirer la poêle du feu, ajouter le beurre froid, le persil et le citron. Faire tourner la poêle 15 secondes pour lier.', signal: 'sauce brillante et nappante.' },
+  { title: 'Dresser', badge: 'Service immédiat', text: 'Assiettes chaudes, deux paires par personne, napper de persillade. Saler à la fleur de sel au dernier moment.', signal: 'service dans la minute.' }
+];
+const TOC = [
+  { id: 'erreur', label: 'L\u2019erreur fatale' },
+  { id: 'ingredients', label: 'Ingrédients' },
+  { id: 'cuisson', label: 'Infographie de cuisson' },
+  { id: 'etapes', label: 'Pas à pas' },
+  { id: 'conservation', label: 'Conservation' },
+  { id: 'reseaux', label: 'Formats sociaux' }
+];
+const NUTRI = [['A', '#038141'], ['B', '#85BB2F'], ['C', '#FECB02'], ['D', '#EE8100'], ['E', '#E63E11']];
+const IG = [
+  { kind: 'Couverture', visual: 'Macro 45° · poêle, beurre moussant', title: '90 secondes par face. Pas une de plus.' },
+  { kind: 'Erreur', visual: 'Chair nacrée vs chair rétractée', title: 'Pourquoi la cuisson longue sèche la chair.' },
+  { kind: 'Ingrédients', visual: 'Mise en place cenital, lin clair', title: '9 ingrédients, 4 personnes.' },
+  { kind: 'Chronologie', visual: 'Barre 0 → 150 s', title: '75 s · 60 s · 15 s hors du feu.' },
+  { kind: 'CTA', visual: 'Assiette dressée', title: 'La recette complète sur la Grenoupedia.' }
+];
+const REEL = [
+  { from: 0, to: 3, label: 'Accroche', plan: 'Plan serré : les cuisses tombent dans le beurre qui mousse.', texte: '« 75 secondes sans y toucher. »' },
+  { from: 3, to: 22, label: 'Nœud', plan: 'Retournement, ail confit, arrosage, persil hors du feu. Chrono à l\u2019écran.', texte: 'Les trois gestes, chronométrés.' },
+  { from: 22, to: 30, label: 'CTA', plan: 'Dressage sur assiette chaude, plan cenital.', texte: 'Recette complète : lien Grenoupedia.' }
+];
+const LI = [
+  'Découpe Premium prête à cuire : aucun parage en cuisine.',
+  'Calibre régulier : portions et temps de cuisson prévisibles d\u2019une assiette à l\u2019autre.',
+  'Cuisson minute : la poêle se libère en moins de trois minutes pendant le coup de feu.'
+];
+const fmt = t => Math.floor(t / 60) + ':' + String(Math.floor(t % 60)).padStart(2, '0');
+
+class Component extends DCLogic {
+  state = { cut: null, phase: 0, t: 0, running: false, tab: 'ig', w: typeof window !== 'undefined' ? window.innerWidth : 1200, stickTop: 24, sideOpen: false, active: 'erreur' };
+  rootRef = React.createRef();
+
+  asideRef = React.createRef();
+  measure() {
+    const el = this.rootRef.current;
+    const w = (el && el.getBoundingClientRect().width) || window.innerWidth;
+    const a = this.asideRef.current;
+    const top = a ? Math.min(24, window.innerHeight - a.offsetHeight - 24) : 24;
+    if (Math.abs(w - this.state.w) > 1 || top !== this.state.stickTop) this.setState({ w, stickTop: top });
+  }
+  componentDidMount() {
+    this.onResize = () => this.measure();
+    window.addEventListener('resize', this.onResize);
+    if (window.ResizeObserver) {
+      this.ro = new ResizeObserver(this.onResize);
+      this.ro.observe(document.documentElement);
+      [this.rootRef.current, this.asideRef.current].forEach(el => el && this.ro.observe(el));
+    }
+    this.measure();
+    setTimeout(this.onResize, 300);
+    this.onScroll = () => { if (this.raf) return; this.raf = requestAnimationFrame(() => { this.raf = null; this.trackActive(); }); };
+    window.addEventListener('scroll', this.onScroll, true);
+    this.syncLD();
+  }
+  componentDidUpdate(pp) {
+    if (pp.decoupe !== this.props.decoupe && this.state.cut) this.setState({ cut: null });
+    this.syncLD();
+  }
+  componentWillUnmount() {
+    this.ro && this.ro.disconnect();
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('scroll', this.onScroll, true);
+    clearInterval(this.timer);
+  }
+  syncLD() {
+    let el = document.getElementById('grenoupedia-recipe-ld');
+    if (!el) { el = document.createElement('script'); el.type = 'application/ld+json'; el.id = 'grenoupedia-recipe-ld'; document.head.appendChild(el); }
+    if (el.textContent !== this.ldText) el.textContent = this.ldText;
+  }
+  trackActive() {
+    let a = TOC[0].id;
+    for (const it of TOC) { const el = document.getElementById('sec-' + it.id); if (el && el.getBoundingClientRect().top < 160) a = it.id; }
+    if (a !== this.state.active) this.setState({ active: a });
+  }
+  scrollParent(el) {
+    let p = el.parentElement;
+    while (p && p !== document.body && p !== document.documentElement) {
+      const o = getComputedStyle(p).overflowY;
+      if ((o === 'auto' || o === 'scroll') && p.scrollHeight > p.clientHeight) return p;
+      p = p.parentElement;
+    }
+    return null;
+  }
+  goTo(id) {
+    const el = document.getElementById('sec-' + id);
+    if (!el) return;
+    const sp = this.scrollParent(el);
+    if (sp) sp.scrollTo({ top: el.getBoundingClientRect().top - sp.getBoundingClientRect().top + sp.scrollTop - 24, behavior: 'smooth' });
+    else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 24, behavior: 'smooth' });
+    this.setState({ active: id, sideOpen: false });
+  }
+  toggleTimer() {
+    if (this.state.running) { clearInterval(this.timer); this.setState({ running: false }); return; }
+    const start = this.state.t >= TOTAL ? 0 : this.state.t;
+    const t0 = performance.now() - start * 1000;
+    this.setState({ running: true, t: start });
+    this.timer = setInterval(() => {
+      let t = (performance.now() - t0) / 1000;
+      if (t >= TOTAL) { clearInterval(this.timer); this.setState({ t: TOTAL, running: false, phase: 2 }); return; }
+      this.setState({ t });
+    }, 100);
+  }
+  resetTimer() { clearInterval(this.timer); this.setState({ t: 0, running: false, phase: 0 }); }
+  pickPhase(i) { clearInterval(this.timer); this.setState({ phase: i, t: PHASES[i].from, running: false }); }
+
+  renderVals() {
+    const slots = (this.props.mode ?? 'exemple') === 'gabarit';
+    const s = (k, v) => slots ? '{{' + k + '}}' : v;
+    const cutId = this.state.cut || this.props.decoupe || 'premium';
+    const cut = CUTS.find(c => c.id === cutId) || CUTS[0];
+    const narrow = this.state.w < 960;
+    const { t, running } = this.state;
+
+    const r = {
+      CATEGORIE_PLAT: s('CATEGORIE_PLAT', 'Cuisine & techniques'),
+      TITRE_RECETTE: s('TITRE_RECETTE', 'Cuisses de grenouille en persillade :'),
+      TITRE_PROMESSE: s('TITRE_PROMESSE', 'la cuisson à la seconde près.'),
+      CHAPO: s('CHAPO', 'Deux faces, cent trente-cinq secondes sur le feu et une persillade liée hors du feu : la méthode pour une chair nacrée qui se détache de l\u2019os sans sécher.'),
+      TEMPS_PREP: s('TEMPS_PREP', '15 min'),
+      TEMPS_CUISSON: s('TEMPS_CUISSON', '2 min 30 s'),
+      ALERTE_CUISSON: s('ALERTE_CUISSON', '90 s max. par face'),
+      DIFFICULTE: s('DIFFICULTE', 'Facile'),
+      PORTIONS: s('PORTIONS', '4 personnes'),
+      LEGENDE_PHOTO: s('LEGENDE_PHOTO', 'Découpe Premium saisie au beurre clarifié, persillade émulsionnée hors du feu.'),
+      CREDIT_PHOTO: s('CREDIT_PHOTO', 'Photographie Grenoucerie · produit paré, prêt à cuire'),
+      CORTE_GRENOUCERIE: s('CORTE_GRENOUCERIE', cut.name),
+      CORTE_DESC: s('CORTE_DESC', cut.desc),
+      CORTE_USAGE: s('CORTE_USAGE', cut.usage),
+      CALIBRE: s('CALIBRE', cut.calibre),
+      ORIGINE: s('ORIGINE', 'Indiquée sur chaque lot'),
+      MATIERE_GRASSE: s('MATIERE_GRASSE', '0,3 %'),
+      NUTRISCORE: s('NUTRISCORE', 'A'),
+      SOURCE_NUTRITION: s('SOURCE_NUTRITION', 'À valider · fiche technique du lot'),
+      VIN_TERROIR: s('VIN_TERROIR', 'Chablis ou Meursault'),
+      VIN_NOTE: s('VIN_NOTE', 'Blanc sec de Bourgogne, tendu, pour trancher le beurre.'),
+      SANS_ALCOOL: s('SANS_ALCOOL', 'Infusion à froid de thé blanc'),
+      SANS_ALCOOL_NOTE: s('SANS_ALCOOL_NOTE', 'Zestes de citron et de bergamote, servie à 8–10 °C.'),
+      ERREUR_TITRE: s('ERREUR_TITRE', 'Elle ne se braise pas :'),
+      ERREUR_EM: s('ERREUR_EM', 'elle se saisit.'),
+      ERREUR_TEXTE: s('ERREUR_TEXTE', 'La cuisse de grenouille a une fibre fine et courte : il n\u2019y a rien à attendrir. Au-delà de deux minutes sur le feu, les fibres se contractent, rendent leur eau, et la chair perd sa texture soyeuse en se détachant sèche de l\u2019os. Traitez-la comme un filet de sole : saisie franche, cuisson minute, service immédiat.'),
+      ERREUR_REGLE: s('ERREUR_REGLE', 'Règle : jamais plus de 90 secondes par face.'),
+      CUISSON_TITRE: s('CUISSON_TITRE', '150 secondes,'),
+      CUISSON_EM: s('CUISSON_EM', 'trois gestes.'),
+      CUISSON_NOTE: s('CUISSON_NOTE', 'Temps indicatifs pour des paires de 100–125 g dans une poêle non surchargée ; à ajuster selon le calibre, la charge et le matériel. La couleur et la texture ne garantissent pas la sécurité sanitaire.'),
+      CITATION: s('CITATION', 'Sauver la tradition par l\u2019innovation.'),
+      CITATION_AUTEUR: s('CITATION_AUTEUR', 'Grenoucerie'),
+      CONSERVATION: s('CONSERVATION', 'Laisser tiédir, puis réfrigérer dans une boîte hermétique, la persillade à part. Délai de consommation : se référer à l\u2019étiquette du lot.'),
+      REGENERATION: s('REGENERATION', 'Au bain-marie dans un sachet fermé, ou à la poêle à feu doux, couvercle posé, avec une noisette de beurre et une cuillère d\u2019eau. Une à deux minutes, sans laisser bouillir.'),
+      REGENERATION_NOTE: s('REGENERATION_NOTE', 'Réchauffer ne remet pas le délai à zéro.'),
+      REEL_TEXTE_ECRAN: s('REEL_TEXTE_ECRAN', '75 secondes sans y toucher.'),
+      LINKEDIN_TITRE: s('LINKEDIN_TITRE', 'Persillade en service : 150 secondes, zéro parage.')
+    };
+
+    const ingredients = slots
+      ? [{ group: '{{INGREDIENTS_GROUPE}}', items: [{ name: '{{INGREDIENT_NOM}}', qty: '{{INGREDIENT_QTE}}', allergen: '{{ALLERGENE}}' }] }]
+      : INGREDIENTS;
+    const steps = (slots ? [{ title: '{{ETAPE_TITRE}}', badge: '{{ETAPE_CONTROLE_THERMIQUE}}', text: '{{ETAPE_TEXTE}}', signal: '{{ETAPE_SIGNAL}}' }] : STEPS)
+      .map((x, i) => ({ ...x, n: slots ? '{{N}}' : String(i + 1).padStart(2, '0') }));
+
+    const autoIdx = Math.max(0, PHASES.findIndex(p => t >= p.from && t < p.to));
+    const sel = running ? autoIdx : this.state.phase;
+    const phases = PHASES.map((p, i) => ({
+      k: String(i + 1), w: `calc(${(p.to - p.from) / TOTAL * 100}% - 2px)`, bg: p.bg, fg: p.fg,
+      on: i === sel, op: i === sel ? 1 : 0.38, pick: () => this.pickPhase(i),
+      range: `${p.from}–${p.to} s`,
+      title: s(`PHASE_${i + 1}_TITRE`, p.title), text: s(`PHASE_${i + 1}_TEXTE`, p.text), signal: s(`PHASE_${i + 1}_SIGNAL`, p.signal)
+    }));
+    const cur = phases[sel];
+    const bounds = [0, 75, 135, 150];
+    const ticks = bounds.map((b, i) => ({ top: i === bounds.length - 1 ? '16px' : '0', left: (b / TOTAL * 100) + '%', label: b + ' s', tx: i === 0 ? 'none' : i === bounds.length - 1 ? 'translateX(-100%)' : 'translateX(-50%)' }));
+    const nextB = bounds.find(b => b > t);
+    const clockHint = running ? `prochain geste dans ${Math.ceil(nextB - t)} s` : t >= TOTAL ? 'servez' : 'sur ' + fmt(TOTAL);
+
+    const nsVal = r.NUTRISCORE;
+    const nutri = NUTRI.map(([l, bg]) => ({ l, bg, op: l === nsVal ? 1 : 0.28, size: l === nsVal ? '30px' : '22px' }));
+
+    const toc = TOC.map((it, i) => {
+      const on = this.state.active === it.id;
+      return { ...it, n: String(i + 1).padStart(2, '0'), go: () => this.goTo(it.id), rule: on ? '#1E3A2C' : 'rgba(30,58,44,0.14)', color: on ? '#1E3A2C' : '#4E5650', weight: on ? 600 : 400 };
+    });
+
+    const TABS = [{ id: 'ig', label: 'Carrousel Instagram', fmt: '4:5' }, { id: 'reel', label: 'Reel / TikTok', fmt: '9:16 · 30 s' }, { id: 'li', label: 'LinkedIn B2B', fmt: '1:1' }];
+    const tabs = TABS.map(tb => { const on = this.state.tab === tb.id; return { ...tb, on, pick: () => this.setState({ tab: tb.id }), rule: on ? '#1E3A2C' : 'transparent', color: on ? '#1E3A2C' : '#4E5650', weight: on ? 600 : 400 }; });
+    const ig = IG.map((x, i) => ({ ...x, n: String(i + 1).padStart(2, '0'), title: s(`IG_SLIDE_${i + 1}`, x.title) }));
+    const reel = REEL.map((x, i) => ({ ...x, range: `${x.from}–${x.to} s`, w: ((x.to - x.from) / 30 * 100) + '%', plan: s(`REEL_${x.label.toUpperCase()}_PLAN`, x.plan), texte: s(`REEL_${x.label.toUpperCase()}_TEXTE`, x.texte) }));
+    const li = LI.map((x, i) => ({ n: String(i + 1).padStart(2, '0'), text: s(`LINKEDIN_ARG_${i + 1}`, x) }));
+
+    const flatIng = ingredients.flatMap(g => g.items.map(it => `${it.qty} ${it.name}`));
+    const ld = {
+      '@context': 'https://schema.org', '@type': 'Recipe',
+      name: `${r.TITRE_RECETTE} ${r.TITRE_PROMESSE}`,
+      description: r.CHAPO,
+      image: ['{{IMAGE_URL_16x9}}', '{{IMAGE_URL_4x3}}', '{{IMAGE_URL_1x1}}'],
+      author: { '@type': 'Organization', name: 'Grenoucerie', url: 'https://grenoucerie.com' },
+      datePublished: '{{DATE_PUBLICATION}}',
+      recipeCategory: r.CATEGORIE_PLAT,
+      recipeCuisine: 'Française',
+      keywords: s('MOTS_CLES', 'cuisses de grenouille, persillade, découpe Premium'),
+      recipeYield: r.PORTIONS,
+      prepTime: s('PREP_TIME_ISO', 'PT15M'),
+      cookTime: s('COOK_TIME_ISO', 'PT2M30S'),
+      totalTime: s('TOTAL_TIME_ISO', 'PT17M30S'),
+      nutrition: { '@type': 'NutritionInformation', servingSize: '{{PORTION_G}}', fatContent: '{{FAT_CONTENT}}', calories: '{{CALORIES}}' },
+      recipeIngredient: slots ? ['{{INGREDIENTS_LIST}}'] : flatIng,
+      recipeInstructions: steps.map(st => ({ '@type': 'HowToStep', name: st.title, text: st.text }))
+    };
+    this.ldText = JSON.stringify(ld, null, 2);
+
+    return {
+      rootRef: this.rootRef, asideRef: this.asideRef, slots, r,
+      cuts: CUTS.map(c => { const on = c.id === cut.id; return { name: c.name, on, pick: () => this.setState({ cut: c.id }), bg: on ? '#EBDDD2' : 'transparent', fg: on ? '#142A1F' : '#1E3A2C', border: on ? '#1E3A2C' : 'rgba(30,58,44,0.25)' }; }),
+      layout: narrow
+        ? { narrow: true, cols: 'minmax(0,1fr)', gap: '40px', pos: 'static', top: '0' }
+        : { narrow: false, cols: '240px minmax(0,1fr)', gap: '64px', pos: 'sticky', top: this.state.stickTop + 'px' },
+      sideOpen: !narrow || this.state.sideOpen,
+      sideChevron: this.state.sideOpen ? '−' : '+',
+      toggleSide: () => this.setState(st => ({ sideOpen: !st.sideOpen })),
+      toc, nutri, ingredients, steps, phases, cur, ticks,
+      playLeft: `calc(${t / TOTAL * 100}% - 1px)`,
+      clock: fmt(t), clockHint,
+      timerLabel: running ? 'Pause' : t > 0 && t < TOTAL ? 'Reprendre' : 'Lancer le chrono',
+      toggleTimer: () => this.toggleTimer(), resetTimer: () => this.resetTimer(),
+      tabs, tabIG: this.state.tab === 'ig', tabReel: this.state.tab === 'reel', tabLI: this.state.tab === 'li',
+      ig, reel, li,
+      repeatNoteIng: '↻ ligne répétée pour chaque entrée de {{INGREDIENTS_LIST}}',
+      repeatNoteSteps: '↻ étape répétée pour chaque entrée de {{ETAPES_LIST}}',
+      ldText: this.ldText
+    };
+  }
+}
+</script>
+</body>
+</html>

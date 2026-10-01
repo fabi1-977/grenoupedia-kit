@@ -1,0 +1,64 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Recipe",
+  "name": "Cuisses de grenouille laquées hoisin et cinq-épices",
+  "description": "Cuisses de grenouille laquées hoisin et cinq-épices : un grill en trois temps, la laque posée en fin de cuisson. Recette pour 4 personnes, à tester.",
+  "recipeCategory": "Plat",
+  "recipeCuisine": "Inspirée de la cuisine chinoise",
+  "prepTime": "PT20M",
+  "cookTime": "PT9M",
+  "totalTime": "PT49M",
+  "recipeYield": "4 personnes",
+  "recipeIngredient": [
+    "600 g de Grenouchup (découpe sucette, os dégagé)",
+    "5 g de fleur de sel",
+    "30 ml de vin de riz Shaoxing",
+    "10 g de gingembre frais râpé",
+    "10 ml d'huile neutre pour la grille",
+    "40 g de sauce hoisin",
+    "20 g de miel",
+    "15 ml de sauce soja",
+    "10 ml de vinaigre de riz",
+    "5 ml d'huile de sésame grillé",
+    "1,5 g de poudre de cinq-épices",
+    "5 g d'ail râpé",
+    "30 g de cébettes émincées",
+    "5 g de graines de sésame"
+  ],
+  "recipeInstructions": [
+    {
+      "@type": "HowToStep",
+      "name": "Mariner",
+      "text": "Mélanger les Grenouchup avec la fleur de sel, le vin Shaoxing et le gingembre. Laisser reposer 20 minutes au frais, puis éponger soigneusement."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Préparer la laque",
+      "text": "Réunir hoisin, miel, sauce soja, vinaigre de riz, huile de sésame, cinq-épices et ail. Chauffer 2 minutes à feu très doux en remuant, sans bouillir."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Préparer le grill",
+      "text": "Créer une zone chaude et une zone tiède sur une braise moyenne. Huiler la grille."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Griller",
+      "text": "Poser les Grenouchup sur la zone chaude, os dégagé côté tiède. Griller environ 3 min 30, retourner et poursuivre environ 3 minutes."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Laquer",
+      "text": "Sur la zone tiède, badigeonner une première couche de laque, attendre 60 secondes, retourner et badigeonner la seconde."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Dresser",
+      "text": "Dresser sur assiettes chaudes, parsemer de cébettes et de graines de sésame, servir avec la laque restante à part."
+    }
+  ],
+  "author": {
+    "@type": "Organization",
+    "name": "Grenoucerie"
+  }
+}

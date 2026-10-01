@@ -1,0 +1,29 @@
+<!-- @dsCard group="Components" viewport="700x420" name="Core" -->
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+<script src="../../ds-dev-loader.js"></script></head>
+<body style="margin:0;padding:24px;background:var(--surface-page)"><div id="root"></div>
+<script type="text/babel">
+window.loadDS('../../').then(NS => {
+const { Button, Tag, Ligne, DataBand } = NS;
+const Lbl = ({ children }) => <div style={{ fontFamily: 'var(--font-mono)', fontSize: 14, color: 'var(--noir-2)', margin: '18px 0 8px' }}>{children}</div>;
+function Demo() {
+  return <div>
+    <Lbl>Button — primary · secondary · ghost · disabled</Lbl>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
+      <Button arrow>Demander le tarif</Button><Button variant="secondary">Voir la Coupe G1</Button><Button variant="ghost" arrow>Dossier technique</Button><Button size="sm">Petit</Button><Button disabled>Indisponible</Button>
+    </div>
+    <div style={{ background: 'var(--vert)', padding: 14, marginTop: 10, display: 'flex', gap: 12 }}><Button variant="inverse" arrow>Inverse sur vert</Button></div>
+    <Lbl>Tag</Lbl>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}><Tag>Neutre</Tag><Tag variant="allergene">Lait</Tag><Tag variant="controle">Feu moyen-vif</Tag><Tag variant="alerte">90 s max. par face</Tag><Tag variant="gamme" gamme="coupes">Les Coupes</Tag><Tag variant="gamme" gamme="collection">Collection</Tag></div>
+    <Lbl>Ligne · DataBand</Lbl>
+    <Ligne label="74 %" />
+    <DataBand items={[{ label: 'Calibre', value: '8/12 pcs/lb' }, { label: 'Glaçage', value: '15 % déclaré' }, { label: 'SKU', value: 'GRN-CPS-G1-1315' }]} />
+  </div>;
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+});
+</script></body></html>

@@ -1,0 +1,9 @@
+/* Base — éléments */
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--surface-page); color: var(--text-primary); font: var(--type-body); -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: var(--fw-bold); letter-spacing: var(--tracking-display); line-height: var(--lh-heading); margin: 0; }
+a { color: var(--text-link); text-decoration-color: var(--vert-sauge); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { color: var(--text-link-hover); }
+code, kbd, samp, .data { font-family: var(--font-mono); }
+::selection { background: var(--acier); color: var(--noir); }
+:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }

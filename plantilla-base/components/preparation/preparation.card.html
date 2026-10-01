@@ -1,0 +1,25 @@
+<!-- @dsCard group="Components" viewport="700x900" name="Préparation" -->
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+<script src="../../ds-dev-loader.js"></script></head>
+<body style="margin:0;padding:24px;background:var(--surface-page)"><div id="root"></div>
+<script type="text/babel">
+window.loadDS('../../').then(NS => {
+const { IngredientList, StepList, CookingTimeline } = NS;
+const Lbl = ({ children }) => <div style={{ fontFamily: 'var(--font-mono)', fontSize: 14, color: 'var(--noir-2)', margin: '18px 0 8px' }}>{children}</div>;
+function Demo() {
+  return <div>
+    <Lbl>CookingTimeline</Lbl>
+    <CookingTimeline phases={[{ from: 0, to: 75, title: 'Saisir sans toucher', text: 'Cuisses à plat dans le beurre clarifié moussant.', signal: 'bord doré.' }, { from: 75, to: 135, title: "Retourner, ajouter l'ail confit", text: 'Arroser au beurre à la cuillère.', signal: "l'ail blondit sans colorer." }, { from: 135, to: 150, title: 'Émulsionner hors du feu', text: 'Beurre froid, persil, citron.' }]} note="Temps indicatifs. La couleur et la texture ne garantissent pas la sécurité sanitaire." />
+    <Lbl>IngredientList</Lbl>
+    <IngredientList groups={[{ title: 'La persillade', items: [{ name: 'Beurre doux froid, en dés', qty: '40 g', allergen: 'Lait' }, { name: 'Persil plat, ciselé', qty: '15 g' }, { name: 'Jus de citron', qty: '10 ml' }] }]} />
+    <Lbl>StepList</Lbl>
+    <StepList steps={[{ title: 'Saisir', control: 'Feu moyen-vif', text: 'Déposer les cuisses sans les chevaucher, ne plus y toucher pendant 75 secondes.', signal: 'bord doré, chair opaque sur un tiers.' }, { title: 'Émulsionner', control: 'Hors du feu', text: 'Beurre froid, persil, citron. Faire tourner la poêle 15 secondes.' }]} />
+  </div>;
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+});
+</script></body></html>
